@@ -2,33 +2,29 @@ import numpy as np
 
 print("Starting program...")
 
-data_tab=[]
+def read_data(filename):
+    file = open(filename, "r")
 
-# Wczytywanie danych
-file = open("dane_2m.txt", "r")
-data = file.read()
-file.close()
+    tasks_val, machines_val = file.readline().split()
+    tasks_val = int(tasks_val)
+    machines_val = int(machines_val)
 
-print("Reading data:")
-print(data)
+    tasks = np.zeros((tasks_val,machines_val))
+    for i in range(tasks_val):
+        tmp = file.readline().split()
+        for j in range(machines_val):
+            tasks[i][j] = int(tmp[j])
 
-for number in data.split():         #Wczytywanie danych do tablicy
-    data_tab.append(int(number))
+    print("Number of tasks: ", tasks_val)
+    print("Number of machines: ", machines_val)
+    print("Tasks: \n", tasks)
+    file.close()
+    return tasks_val, machines_val, tasks
 
-print("Data transfered to table: ")
-print(data_tab)
 
-task_val = data_tab[0]
-machines_val = data_tab[1]
+read_data("data_2m.txt")
 
-print("Number of tasks: ", task_val)
-print("Numer of machines: ", machines_val)
 
-data_tab.pop(0)
-data_tab.pop(0)
-
-print("Just tasks")
-print(data_tab)
 
 
 
