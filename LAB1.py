@@ -32,8 +32,40 @@ def johnson_algorithm(machines_val, tasks):
 
 
 def johnson2m(tasks):
-    print("2m")
+    #print("2m")
+    #print(len(tasks[1]))
+    mt_row = 0
+    mt_column = 0
+    tab1 = []
+    tab2 = []
+    iter = 0
+    #print(len(tasks))
+    while(iter != len(tasks)):
+        min_time = 100
+       # print(tasks)
+        for i in range(0, len(tasks)):
+            for j in range(0, len(tasks[i])):
+                if(min_time > tasks[i][j]):
+                    min_time = tasks[i][j]
+                    mt_row = i
+                    mt_column = j
+        #print("Iteracja:", iter, "MT_ROW:",mt_row, "MT_COL:", mt_column)
+        tasks[mt_row] = 1000
 
+        if (mt_column == 0):
+            tab1.append(mt_row)
+           # print("Dodaje", mt_row, "Do tab 1")
+        if (mt_column == 1):
+            tab2.append(mt_row)
+           # print("Dodaje", mt_row, "Do tab 2")
+
+        iter = iter +1
+        #print(iter)
+
+    print(tab1)
+    print(tab2)
+    sequence = tab1 + list(reversed(tab2))
+    print("Sequence: ", sequence)
 
 def johnson3m(tasks):
     print("3m")
