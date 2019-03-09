@@ -1,11 +1,14 @@
-#Algroytm Pzepływowy i Johnsona
+import numpy as np
+
 print("Starting program...")
 
 data_tab=[]
 
 # Wczytywanie danych
-file = open("dane.txt", "r")
+file = open("dane_2m.txt", "r")
 data = file.read()
+file.close()
+
 print("Reading data:")
 print(data)
 
@@ -21,10 +24,22 @@ machines_val = data_tab[1]
 print("Number of tasks: ", task_val)
 print("Numer of machines: ", machines_val)
 
+data_tab.pop(0)
+data_tab.pop(0)
 
-file.close()
+print("Just tasks")
+print(data_tab)
+
+
+
+
+
 
 
 
 #input('Press ENTER to continue...')
+
+
+##ALGORYTM JOHNSONA
+
 
