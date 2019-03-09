@@ -5,5 +5,3 @@
 
  Patrycja Bugaj  
  Kamil Goś 235184 
-
-abc
