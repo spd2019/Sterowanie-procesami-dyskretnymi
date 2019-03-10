@@ -1,5 +1,5 @@
 import numpy as np
-import bruteforce
+
 
 def johnson_algorithm(machines_val, tasks):
     print("\n Johnson algorithm: START")

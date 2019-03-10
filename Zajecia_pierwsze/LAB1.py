@@ -1,7 +1,4 @@
-import numpy as np
-import johnson
-import read_data
-import bruteforce
+from Zajecia_pierwsze import read_data, bruteforce, johnson
 
 ##############################################
 TWO_OR_THREE = 3         #Two or three machines algorithm??
