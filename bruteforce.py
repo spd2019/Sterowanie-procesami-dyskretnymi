@@ -22,10 +22,12 @@ def makespan(order, tasks, machines_val):
             times[k] += tasks[j][k]
     return max(times)
 
-def przeglad_zup(tasks, machines_val, tasks_val):
+def bruteforce(tasks, machines_val, tasks_val):
+    print("Starting bruteforce")
     t = []
     for z in range(0, tasks_val):
         t.append(z)
     for p in permute(t):
         print("order: {}".format(p))
         print("makespan: {}".format(makespan(p, tasks, machines_val)))
+    print("Bruteforce: DONE")
