@@ -1,3 +1,8 @@
+from prettytable import PrettyTable
+
+figure =  PrettyTable()
+figure.field_names = ["Sequence", "Makespan"]
+
 def permute(x, index=0):
     if index+1 >= len(x):
         yield x
@@ -25,9 +30,17 @@ def makespan(order, tasks, machines_val):
 def bruteforce(tasks, machines_val, tasks_val):
     print("Starting bruteforce")
     t = []
+    min_time = 1000
     for z in range(0, tasks_val):
         t.append(z)
     for p in permute(t):
-        print("order: {}".format(p))
-        print("makespan: {}".format(makespan(p, tasks, machines_val)))
+        #print("order: {}".format(p))
+        #print("makespan: {}".format(makespan(p, tasks, machines_val)))
+        tmp = makespan(p, tasks, machines_val)
+        figure.add_row([format(p), tmp ])
+        if (tmp < min_time):
+            min_time = tmp
+            best_permute = format(p)
+    print(figure)
+    print("Min time:", min_time, "  for :", format(best_permute), "permutation")
     print("Bruteforce: DONE")

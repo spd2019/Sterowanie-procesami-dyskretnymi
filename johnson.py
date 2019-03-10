@@ -1,6 +1,8 @@
 import numpy as np
+import bruteforce
 
 def johnson_algorithm(machines_val, tasks):
+    print("\n Johnson algorithm: START")
     if(machines_val == 2):
         print("Two machines algorithm: START")
         return johnson2m(tasks)
@@ -10,6 +12,8 @@ def johnson_algorithm(machines_val, tasks):
 
 
 def johnson2m(tasks):
+    tmp_tasks = tasks.copy()
+
     mt_row = 0
     mt_column = 0
     tab1 = []
@@ -32,6 +36,8 @@ def johnson2m(tasks):
         iter = iter +1
 
     sequence = tab1 + list(reversed(tab2))
+
+
     print("Best sequence: ", sequence)
     print("Two machines algorithm: DONE")
 
