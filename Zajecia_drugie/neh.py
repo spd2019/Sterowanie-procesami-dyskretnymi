@@ -12,8 +12,6 @@ def makespan(order, tasks, machines_val):
             times[k] += tasks[j][k]
     return max(times)
 
-tasks_val, machines_val, tasks = read_data("data1.txt")
-
 def sum_and_order(tasks_val, machines_val, tasks):
     tab = []
     tab1 = []
@@ -58,7 +56,3 @@ def neh(tasks, machines_val, tasks_val):
                 min_cmax = cmax_tmp
         current_seq = best_seq
     return current_seq, makespan(current_seq, tasks, machines_val)
-
-seq, cmax = neh(tasks, machines_val, tasks_val)
-print("Najlepsza sekwencja: ", seq)
-print("Najlepszy Cmax: ", cmax)
