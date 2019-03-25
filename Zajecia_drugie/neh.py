@@ -26,7 +26,7 @@ def sum_and_order(tasks_val, machines_val, tasks):
     place = 0
     iter = 0
     while(iter != tasks_val):           #układa zadania w kolejności malejącej
-        max_time = 10
+        max_time = 1
         for i in range(0, tasks_val):
             if(max_time < tab[i]):
                 max_time = tab[i]
