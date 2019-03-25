@@ -18,3 +18,9 @@ def read_data(filename):
     print("Tasks: \n", tasks)
     file.close()
     return tasks_val, machines_val, tasks
+
+''''  4   2
+  1   3
+  9   3
+  7   8
+  4   8'''''
