@@ -3,66 +3,9 @@ import random as ran
 import math
 import time
 
-def read_data(filename):
-    file = open(filename, "r")
+from Zajęcia_trzecie import common_functions as cf
+from Zajęcia_trzecie import neh
 
-    tasks_val, machines_val = file.readline().split()
-    tasks_val = int(tasks_val)
-    machines_val = int(machines_val)
-
-    tasks = np.zeros((tasks_val,machines_val))
-    for i in range(tasks_val):
-        tmp = file.readline().split()
-        for j in range(machines_val):
-            tasks[i][j] = int(tmp[j])
-
-    print("Number of tasks: ", tasks_val)
-    print("Number of machines: ", machines_val)
-    print("Tasks: \n", tasks)
-    file.close()
-    return tasks_val, machines_val, tasks
-
-def makespan(order, tasks, machines_val):
-    times = []
-    for i in range(0, machines_val):
-        times.append(0)
-    for j in order:
-        times[0] += tasks[j][0]
-        for k in range(1, machines_val):
-            if times[k] < times[k-1]:
-                times[k] = times[k-1]
-            times[k] += tasks[j][k]
-    return max(times)
-
-def sum_and_order(tasks_val, machines_val, tasks):
-    tab = []
-    tab1 = []
-    for i in range(0, tasks_val):
-        tab.append(0)
-        tab1.append(0)
-    for j in range(0, tasks_val):        #sumuje czas wykonywania się poszczególnych zadań
-        for k in range(0, machines_val):
-            tab[j] += tasks[j][k]
-    #print(tab)
-    tmp_tab = tab.copy()
-    place = 0
-    iter = 0
-    while(iter != tasks_val):           #układa zadania w kolejności malejącej
-        max_time = 1
-        for i in range(0, tasks_val):
-            if(max_time < tab[i]):
-                max_time = tab[i]
-                place = i
-        tab[place] = 1
-        tab1[iter] = place
-        iter = iter + 1
-    #print(tab1)
-    return tab1
-
-def insertNEH(sequence, position, value):
-    new_seq = sequence[:]
-    new_seq.insert(position, value)
-    return new_seq
 
 def insert(sequence, tasks_val):
     a = ran.randrange(0, tasks_val)
@@ -72,20 +15,6 @@ def insert(sequence, tasks_val):
     new_seq.insert(b, a)
     return new_seq
 
-def neh(tasks, machines_val, tasks_val):
-    order = sum_and_order(tasks_val, machines_val, tasks)
-    current_seq = [order[0]]
-    for i in range(1, tasks_val):
-        min_cmax = float("inf")
-        for j in range(0, i + 1):
-            tmp = insertNEH(current_seq, j, order[i])
-            cmax_tmp = makespan(tmp, tasks, machines_val)
-            #print(tmp, cmax_tmp)
-            if min_cmax > cmax_tmp:
-                best_seq = tmp
-                min_cmax = cmax_tmp
-        current_seq = best_seq
-    return current_seq, makespan(current_seq, tasks, machines_val)
 
 def swap(list, tasks_val):
     a = ran.randrange(0, tasks_val)
@@ -103,8 +32,6 @@ def probability(Cold, Cnew, Temp):
         prob = math.exp((Cold-Cnew)/Temp)
     return prob
 
-tasks_val, machines_val, tasks = read_data("data1.txt")
-
 
 def chlodzenie1(T, u):
     return T*u
@@ -114,7 +41,7 @@ def sym_wyzarzanie1(tasks_val, tasks, machines_val, T_start, T_end):
     # for i in range(0, tasks_val):
     #     pi0.append(i)
     # cmax0 = makespan(pi0, tasks, machines_val)
-    pi0, cmax0 = neh(tasks, machines_val, tasks_val)
+    pi0, cmax0 = neh.neh(tasks, machines_val, tasks_val)
     pi = pi0
     cmax_old = cmax0
     T0 = T_start
@@ -124,7 +51,7 @@ def sym_wyzarzanie1(tasks_val, tasks, machines_val, T_start, T_end):
     while (T >= Tgr):
         #piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
-        cmax = makespan(piprim, tasks, machines_val)
+        cmax = neh.makespan(piprim, tasks, machines_val)
         p = probability(cmax_old, cmax, T)
         s = ran.random()
         if p >= s:
@@ -137,8 +64,6 @@ def sym_wyzarzanie1(tasks_val, tasks, machines_val, T_start, T_end):
 
 
 
-
-
 #zmieniona funckja chlodzenia
 def chlodzenie2(T, k, kmax):
     return T*(k/kmax)
@@ -148,7 +73,7 @@ def sym_wyzarzanie2(tasks_val, tasks, machines_val, T_start, T_end, iter_val):
     # for i in range(0, tasks_val):
     #     pi0.append(i)
     # cmax0 = makespan(pi0, tasks, machines_val)
-    pi0, cmax0 = neh(tasks, machines_val, tasks_val)
+    pi0, cmax0 = neh.neh(tasks, machines_val, tasks_val)
     pi = pi0
     cmax_old = cmax0
     T0 = T_start
@@ -162,7 +87,7 @@ def sym_wyzarzanie2(tasks_val, tasks, machines_val, T_start, T_end, iter_val):
         iter = iter + 1
         #piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
-        cmax = makespan(piprim, tasks, machines_val)
+        cmax = neh.makespan(piprim, tasks, machines_val)
         p = probability(cmax_old, cmax, T)
         s = ran.random()
         if p >= s:
@@ -178,7 +103,6 @@ def sym_wyzarzanie2(tasks_val, tasks, machines_val, T_start, T_end, iter_val):
 
 
 
-
 def probability3(Cold, Cnew, Temp):
     prob = math.exp((Cold-Cnew)/Temp)
     return prob
@@ -189,7 +113,7 @@ def sym_wyzarzanie3(tasks_val, tasks, machines_val, T_start, T_end):
     # for i in range(0, tasks_val):
     #     pi0.append(i)
     # cmax0 = makespan(pi0, tasks, machines_val)
-    pi0, cmax0 = neh(tasks, machines_val, tasks_val)
+    pi0, cmax0 = neh.neh(tasks, machines_val, tasks_val)
     pi = pi0
     cmax_old = cmax0
     T0 = T_start
@@ -199,7 +123,7 @@ def sym_wyzarzanie3(tasks_val, tasks, machines_val, T_start, T_end):
     while (T >= Tgr):
         #piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
-        cmax = makespan(piprim, tasks, machines_val)
+        cmax = neh.makespan(piprim, tasks, machines_val)
         p = probability3(cmax_old, cmax, T)
         s = ran.random()
         if p >= s:
@@ -219,13 +143,13 @@ def probability4(Cold, Cnew, Temp):
         prob = math.exp((Cold - Cnew) / Temp)
     return prob
 
-#bez prawdopodobienstwa = 1
+#bez takiego samego Cnew jak Cold
 def sym_wyzarzanie4(tasks_val, tasks, machines_val, T_start, T_end):
     # pi0 = []
     # for i in range(0, tasks_val):
     #     pi0.append(i)
     # cmax0 = makespan(pi0, tasks, machines_val)
-    pi0, cmax0 = neh(tasks, machines_val, tasks_val)
+    pi0, cmax0 = neh.neh(tasks, machines_val, tasks_val)
     pi = pi0
     cmax_old = cmax0
     T0 = T_start
@@ -235,7 +159,7 @@ def sym_wyzarzanie4(tasks_val, tasks, machines_val, T_start, T_end):
     while (T >= Tgr):
         #piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
-        cmax = makespan(piprim, tasks, machines_val)
+        cmax = neh.makespan(piprim, tasks, machines_val)
         if cmax_old != cmax:
             p = probability4(cmax_old, cmax, T)
             s = ran.random()
@@ -246,7 +170,6 @@ def sym_wyzarzanie4(tasks_val, tasks, machines_val, T_start, T_end):
             else:
                 T = chlodzenie1(T, u)
     return pi, cmax_old
-
 
 
 
@@ -270,7 +193,7 @@ def sym_wyzarzanie_best(tasks_val, tasks, machines_val, T_start, T_end, pi0, cma
         iter = iter + 1
         # piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
-        cmax = makespan(piprim, tasks, machines_val)
+        cmax = neh.makespan(piprim, tasks, machines_val)
         p = probability(cmax_old, cmax, T)
         s = ran.random()
         if p >= s:
@@ -285,6 +208,8 @@ def sym_wyzarzanie_best(tasks_val, tasks, machines_val, T_start, T_end, pi0, cma
     return pi, cmax_old
 
 
+#Wczytywanie danych
+tasks_val, machines_val, tasks = cf.read_data("data1.txt")
 
 
 # #wplyt funkcji chlodzenia
@@ -373,7 +298,7 @@ start = 0
 stop =0
 
 start = time.perf_counter()
-best_seqneh, best_cmaxneh = neh(tasks, machines_val, tasks_val)
+best_seqneh, best_cmaxneh = neh.neh(tasks, machines_val, tasks_val)
 stop = time.perf_counter()
 czasneh = round((stop-start), 3)
 
