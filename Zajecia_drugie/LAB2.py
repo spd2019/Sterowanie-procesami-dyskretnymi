@@ -8,7 +8,7 @@ table = PrettyTable()
 table.field_names = ["Algorithm", "Cmax", "Real time"]
 
 #MODIF?
-MODIF = 4
+MODIF = 3
 
 start = 0
 stop =0
