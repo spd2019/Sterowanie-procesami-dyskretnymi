@@ -54,6 +54,5 @@ while Ng != [] or Nn != []:
         k = k+1
         t = t+tasks[e][1]
         cmax = max(cmax, t+tasks[e][2])
-        Q = []
 print("delta: ", delta)
 print("Cmax: ", cmax)
