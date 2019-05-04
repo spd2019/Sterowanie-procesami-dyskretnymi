@@ -36,28 +36,32 @@ def probability(Cold, Cnew, Temp):
 def chlodzenie1(T, u):
     return T*u
 
+
+
+
+#podstaowwy
 def sym_wyzarzanie1(tasks_val, tasks, machines_val, T_start, T_end):
     # pi0 = []
     # for i in range(0, tasks_val):
     #     pi0.append(i)
     # cmax0 = makespan(pi0, tasks, machines_val)
-    pi0, cmax0 = neh.neh(tasks, machines_val, tasks_val)
+    pi0, cmax0 = neh.neh(tasks, machines_val, tasks_val)  #bierzemy z neha
     pi = pi0
     cmax_old = cmax0
-    T0 = T_start
+    T0 = T_start  #temp poczatkowa
     T = T0
-    u = 0.99
-    Tgr = T_end
+    u = 0.99  #wspolczynnik chlodzenia
+    Tgr = T_end #temp koncowa
     while (T >= Tgr):
         #piprim = swap(pi, tasks_val)
-        piprim = insert(pi, tasks_val)
+        piprim = insert(pi, tasks_val)   #uzywam inserta
         cmax = neh.makespan(piprim, tasks, machines_val)
-        p = probability(cmax_old, cmax, T)
+        p = probability(cmax_old, cmax, T)  #licze P wykonania kroku
         s = ran.random()
         if p >= s:
             pi = piprim
             cmax_old = cmax
-            T = chlodzenie1(T,u)
+            T = chlodzenie1(T,u)   #podstawowe chlodzenie
         else:
             T = chlodzenie1(T, u)
     return pi, cmax_old
@@ -83,7 +87,7 @@ def sym_wyzarzanie2(tasks_val, tasks, machines_val, T_start, T_end, iter_val):
     iter = 0
     max_iter = iter_val
 
-    for i in range(0, max_iter):
+    for i in range(0, max_iter):  #chlodzenie 2 jest na iteracje
         iter = iter + 1
         #piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
@@ -103,11 +107,11 @@ def sym_wyzarzanie2(tasks_val, tasks, machines_val, T_start, T_end, iter_val):
 
 
 
+#bez prawdopodobienstwa = 1
 def probability3(Cold, Cnew, Temp):
     prob = math.exp((Cold-Cnew)/Temp)
     return prob
 
-#bez prawdopodobienstwa = 1
 def sym_wyzarzanie3(tasks_val, tasks, machines_val, T_start, T_end):
     # pi0 = []
     # for i in range(0, tasks_val):
@@ -124,7 +128,7 @@ def sym_wyzarzanie3(tasks_val, tasks, machines_val, T_start, T_end):
         #piprim = swap(pi, tasks_val)
         piprim = insert(pi, tasks_val)
         cmax = neh.makespan(piprim, tasks, machines_val)
-        p = probability3(cmax_old, cmax, T)
+        p = probability3(cmax_old, cmax, T)  #nowe P
         s = ran.random()
         if p >= s:
             pi = piprim
@@ -136,6 +140,7 @@ def sym_wyzarzanie3(tasks_val, tasks, machines_val, T_start, T_end):
 
 
 
+#bez takiego samego Cnew jak Cold (bez rowne)
 def probability4(Cold, Cnew, Temp):
     if Cnew < Cold:
         prob = 1
@@ -143,7 +148,6 @@ def probability4(Cold, Cnew, Temp):
         prob = math.exp((Cold - Cnew) / Temp)
     return prob
 
-#bez takiego samego Cnew jak Cold
 def sym_wyzarzanie4(tasks_val, tasks, machines_val, T_start, T_end):
     # pi0 = []
     # for i in range(0, tasks_val):
