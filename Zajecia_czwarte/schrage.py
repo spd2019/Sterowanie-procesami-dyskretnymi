@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def read_data(filename):
     file = open(filename, "r")
     tasks_val, columns_val = file.readline().split()
