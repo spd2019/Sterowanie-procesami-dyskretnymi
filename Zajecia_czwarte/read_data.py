@@ -10,8 +10,8 @@ def read_data(filename):
         tmp = file.readline().split()
         for j in range(columns_val):
             tasks[i][j] = int(tmp[j])
-    print("Number of tasks: ", tasks_val)
-    print("Number of columns: ", columns_val)
+    #print("Number of tasks: ", tasks_val)
+    #print("Number of columns: ", columns_val)
     #print("Tasks: \n", tasks)
     file.close()
     return tasks_val, columns_val, tasks
