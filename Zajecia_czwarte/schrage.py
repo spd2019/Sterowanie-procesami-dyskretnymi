@@ -19,12 +19,12 @@ def Schrage(tasks):
         if Ng == []:
             t = min(Nn)[0]
         else:
-            idx = Ng.index(max(Ng, key=operator.itemgetter(2)))
-            j = Ng[idx]
-            Ng.pop(idx)
-            sigma.append(j)
-            t = t + j[1]
-            Cmax = max(Cmax, t+j[2])
+            j = Ng.index(max(Ng, key=operator.itemgetter(2)))
+            tmp = Ng[j]
+            Ng.pop(j)
+            sigma.append(tmp)
+            t = t + tmp[1]
+            Cmax = max(Cmax, t+tmp[2])
     return  sigma, Cmax
 
 
@@ -34,19 +34,19 @@ def Schrage_pmtn(tasks):
     sigma = []  # czesciowa kolejnosc skladajaca sie z uszeregowanych zadan
     Ng = []  # zadania gotowe do uszeregowania
     Nn = copy.deepcopy(tasks)  # zadania nieuszeregowane
-    t = min(Nn)[0]  # minimalny czas przygotowania
+    t = 0
     Cmax = 0
-    l = [0, 0, 1000000000]
+    l = [0, 0, 0]  #aktualnie wykonywane zadanie
 
     while (Ng != [] or Nn != []):
         while (Nn != [] and min(Nn)[0] <= t):
-            i = Nn.index(min(Nn))
-            j = Nn[i]
-            Ng.append(j)
-            Nn.pop(i)
-            if j[2] > l[2]:
-                l[1] = t-j[0]
-                t = j[0]
+            j = Nn.index(min(Nn))
+            tmp = Nn[j]
+            Ng.append(tmp)
+            Nn.pop(j)
+            if tmp[2] > l[2]:
+                l[1] = t-tmp[0]
+                t = tmp[0]
                 if l[1] > 0:
                     Ng.append(l)
         if Ng == []:
