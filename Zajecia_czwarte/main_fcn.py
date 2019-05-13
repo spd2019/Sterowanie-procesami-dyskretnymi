@@ -70,3 +70,5 @@ while(test_nr != 5):
         print("Your result is:", results)
         print("=== Schrage Pmtn === \r\n Correst result is: [1492.0, 3070.0, 6398.0]")
         print("Your result is:", results_pmtn)
+
+        print("ok")
