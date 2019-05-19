@@ -1,6 +1,6 @@
-import numpy as np
-from Zajecia_czwarte import read_data as rd
-from Zajecia_czwarte import schrage
+import read_data as rd
+import schrage
+
 test_nr = 0
 
 while(test_nr != 5):
