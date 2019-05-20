@@ -38,8 +38,33 @@ def Carlier(tasks, tasks_val):
     b = get_b(U, pi, tasks_val)
     a = get_a(U, pi, b, tasks_val)
     c = get_c(pi, a, b)
-    print(b)
-    print(a)
-    print(c)
     if c == []:
         return pi_gw
+    K = []
+    for i in range(c+1, b+1):
+        K.append(i)
+    print(K)
+    Kr = []
+    Kp = 0
+    Kq = []
+    for j in K:
+        Kr.append(pi[j][0])
+        Kp += pi[j][1]
+        Kq.append(pi[j][2])
+    Kr = min(Kr)
+    Kq = min(Kq)
+    Kh = Kr + Kp + Kq
+    remember_r = pi[c][0]
+    pi[c][0] = max(pi[c][0], Kr + Kp)
+    ord, LB = Schrage_pmtn(tasks)
+    LB = max(Kh, Kh+pi[c][0]+pi[c][1]+pi[c][2], LB)
+    if LB < UB:
+        Carlier(tasks, tasks_val)
+    pi[c][0] = remember_r
+    remember_q = pi[c][2]
+    pi[c][2] = max(pi[c][2], Kq+Kp)
+    ord, LB = Schrage_pmtn(tasks)
+    LB = max(Kh, Kh + pi[c][0] + pi[c][1] + pi[c][2], LB)
+    if LB < UB:
+        Carlier(tasks, tasks_val)
+    pi[c][2] = remember_q
