@@ -28,3 +28,18 @@ def get_c(pi, a, b):
         return j
     else:
         return []
+
+def Carlier(tasks, tasks_val):
+    pi, U = Schrage(tasks)
+    UB = float("inf")
+    if U < UB:
+        UB = U
+        pi_gw = pi
+    b = get_b(U, pi, tasks_val)
+    a = get_a(U, pi, b, tasks_val)
+    c = get_c(pi, a, b)
+    print(b)
+    print(a)
+    print(c)
+    if c == []:
+        return pi_gw
