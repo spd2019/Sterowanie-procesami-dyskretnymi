@@ -103,7 +103,7 @@ def Cp(jobs, instanceName):
         print(instanceName, "Cmax: ", solver.ObjectiveValue())
         pi = []
         for i in range(len(starts)):
-            pi.append((i, solver.Value(starts)))
+            pi.append((i, solver.Value(starts[i])))
         pi.sort(key=lambda x: x[1])
         print(pi)
     else:
