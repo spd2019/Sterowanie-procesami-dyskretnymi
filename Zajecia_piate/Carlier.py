@@ -50,20 +50,6 @@ def get_c(pi, tasks, a, b):
         return []
 
 
-# Dla rozpatrywanej permutacji tworzony jest zbiór #L# #
-# sprawdzamy 2 warunki i jeśli są spełnione to aktualizujemy tablicę zadań #
-def eliminacja(L, tasks, UB, rpq, b):
-    for i in L:
-        if UB <= tasks[i][0] + tasks[i][1] + rpq[1] + tasks[b][2]: #jeśli ri + pi + pK + qb >=UB
-            # i musi być wykonuwane ZA wszyztkimi zadaniami K i wtedy:
-            tasks[i][0] = max(tasks[i][0], rpq[0]+rpq[1]) #max z {ri, rK+pK}
-        if UB <= rpq[0] + tasks[i][1] + rpq[1] + tasks[i][2]: #jeśli rK + pi + pK + qi >=UB
-            # i musi być wykonuwane PRZED wszyztkimi zadaniami K i wtedy:
-            tasks[i][2] = max(tasks[i][2], rpq[2]+rpq[1])
-    return tasks
-
-
-
 # Podstawowy algorytm #
 def Carlier(tasks):
     global UB
@@ -142,6 +128,7 @@ def Carlier_Elim(tasks):
     rK = min(rK)
     rpq = [rK, pK, qK]
     LB = schrage.Schrage_pmtn(tasks)
+
     #####ELIMINACJA#####
     #Wyznaczanie zbioru L
     L = []
@@ -153,6 +140,7 @@ def Carlier_Elim(tasks):
         if UB - sum(rpq) >= tasks[i][1]:
             L.pop(L.index(i))
     #Sprawdzenie warunków
+    # sprawdzamy 2 warunki i jeśli są spełnione to aktualizujemy tablicę zadań #
     for i in L:
         if UB <= tasks[i][0] + tasks[i][1] + rpq[1] + tasks[b][2]: #jeśli ri + pi + pK + qb >=UB
             # i musi być wykonuwane ZA wszyztkimi zadaniami K i wtedy:
@@ -161,6 +149,7 @@ def Carlier_Elim(tasks):
             # i musi być wykonuwane PRZED wszyztkimi zadaniami K i wtedy:
             tasks[i][2] = max(tasks[i][2], rpq[2]+rpq[1])
     ### KONIEC ELIMINACJI ####
+
     remember_R = tasks[c][0]
     tasks[c][0] = max(tasks[c][0], rK+pK)
     hkc = min(rK, tasks[c][0])+pK+tasks[c][1]+min(qK, tasks[c][2])

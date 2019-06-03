@@ -2,6 +2,7 @@ import time
 import datetime
 import threading
 
+
 def oblicz(x):
     time.sleep(x)
     return x * x
