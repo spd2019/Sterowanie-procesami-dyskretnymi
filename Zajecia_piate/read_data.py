@@ -16,9 +16,5 @@ def read_data_2list(filename):
             tmp_tab = tmp_tab + [values[a+b]]
         tasks.append(tmp_tab)
 
-
-    #print("Number of tasks: ", tasks_val)
-    #print("Number of columns: ", columns_val)
-    #print("Tasks: \n", tasks)
     file.close()
     return tasks_val, columns_val, tasks

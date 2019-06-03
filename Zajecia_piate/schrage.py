@@ -2,62 +2,63 @@ import numpy as np
 import copy
 import operator
 
-def Schrage(tasks):
-    # print("Starting Schrage algorithm")
-
-    sigma = []   #czesciowa kolejnosc skladajaca sie z uszeregowanych zadan
-    Ng = []  # zadania gotowe do uszeregowania
-    Nn = copy.deepcopy(tasks)# zadania nieuszeregowane
-    t = min(Nn)[0]  # minimalny czas przygotowania
+def Schrage(N):
+    teta = []
+    NG = []
+    NN = []
+    a = 0
+    for i in N:
+        NN.append([a, i[0], i[1], i[2]])
+        a += 1
+    t = min(NN, key=operator.itemgetter(1))[1]
     Cmax = 0
+    while (NN != [] or NG != []):
+        while (NN != [] and t >= min(NN, key=operator.itemgetter(1))[1]):
+            j = NN.index(min(NN, key=operator.itemgetter(1)))
+            NG.append(NN[j])
+            NN.pop(j)
 
-    while (Ng !=[] or Nn!=[]):
-        while(Nn !=[] and min(Nn)[0] <=t):
-            j = Nn.index(min(Nn))
-            Ng.append(Nn[j])
-            Nn.pop(j)
-        if Ng == []:
-            t = min(Nn)[0]
+        if NG == []:
+            t = min(NN, key=operator.itemgetter(1))[1]
         else:
-            j = Ng.index(max(Ng, key=operator.itemgetter(2)))
-            tmp = Ng[j]
-            Ng.pop(j)
-            sigma.append(tmp)
-            t = t + tmp[1]
-            Cmax = max(Cmax, t+tmp[2])
-    return  sigma, Cmax
+            i = NG.index(max(NG, key=operator.itemgetter(3)))
+            j = NG[i]
+            NG.pop(i)
+            teta.append(j[0])
+            t = t + j[2]
+            Cmax = max(Cmax, t+j[3])
+    return teta, Cmax
 
 
-def Schrage_pmtn(tasks):
-    # print("Starting Schrage pmtn algorithm")
-
-    sigma = []  # czesciowa kolejnosc skladajaca sie z uszeregowanych zadan
-    Ng = []  # zadania gotowe do uszeregowania
-    Nn = copy.deepcopy(tasks)  # zadania nieuszeregowane
-    t = 0
+def Schrage_pmtn(N):
+    NG = []
+    NN = []
+    a = 0
+    for i in N:
+        NN.append([a, i[0], i[1], i[2]])
+        a += 1
+    t = min(NN, key=operator.itemgetter(1))[1]
     Cmax = 0
-    l = [0, 0, 0]  #aktualnie wykonywane zadanie
-
-    while (Ng != [] or Nn != []):
-        while (Nn != [] and min(Nn)[0] <= t):
-            j = Nn.index(min(Nn))
-            tmp = Nn[j]
-            Ng.append(tmp)
-            Nn.pop(j)
-            if tmp[2] > l[2]:
-                l[1] = t-tmp[0]
-                t = tmp[0]
-                if l[1] > 0:
-                    Ng.append(l)
-        if Ng == []:
-             t = min(Nn)[0]
+    l = [0, 0, 0, 100000000]
+    while (NN != [] or NG != []):
+        while (NN != [] and t >= min(NN, key=operator.itemgetter(1))[1]):
+            j = NN.index(min(NN, key=operator.itemgetter(1)))
+            i = NN[j]
+            NG.append(NN[j])
+            NN.pop(j)
+            if i[3] > l[3]:
+                l[2] = t - i[1]
+                t = i[1]
+                if l[2] > 0:
+                    NG.append(l)
+        if NG == []:
+            t = min(NN, key=operator.itemgetter(1))[1]
         else:
-            i = Ng.index(max(Ng, key=operator.itemgetter(2)))
-            j = Ng[i]
-            Ng.pop(i)
-            sigma.append(j)
+            i = NG.index(max(NG, key=operator.itemgetter(3)))
+            j = NG[i]
+            NG.pop(i)
             l = j
-            t = t + j[1]
-            Cmax = max(Cmax, t + j[2])
-    return sigma, Cmax
+            t = t + j[2]
+            Cmax = max(Cmax, t+j[3])
+    return Cmax
 
