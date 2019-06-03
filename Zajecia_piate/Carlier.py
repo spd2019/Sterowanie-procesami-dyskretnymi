@@ -166,10 +166,28 @@ def Carlier_Elim(tasks):
     tasks[c][2] = remember_Q
     return UB
 
+print("ALGORYTM PODSTAWOWY")
+
+data = [0,1,3,4]
+correct = [228, 3026, 3309, 3191]
+tmp = 0
+for i in data:
+    UB = 9999999
+    plik = "data" + str(i) + ".txt"
+    tasks_val, columns_val, tasks = read_data.read_data_2list(plik)
+    start = time.perf_counter()
+    UB = Carlier(tasks)
+    stop = time.perf_counter()
+    czas = round((stop-start), 5)
+    print("{} {}  Correct: {}  Czas: {}".format(plik, UB, correct[tmp], czas))
+    tmp +=1
+
+
+print("ALGORYTM Z ELIMINACJĄ")
+
 
 data = [0,1,2,3,4,5,6,7,8]
 correct = [228, 3026, 3665 ,3309, 3191, 3618, 3446, 3821, 3634]
-
 
 for i in data:
     UB = 9999999
@@ -181,12 +199,5 @@ for i in data:
     czas = round((stop-start), 5)
     print("{} {}  Correct: {}  Czas: {}".format(plik, UB, correct[i], czas))
 
-# UB = 9999999
-# plik = "data8.txt"
-# tasks_val, columns_val, tasks = read_data.read_data_2list(plik)
-# start = time.perf_counter()
-# UB = Carlier(tasks)
-# stop = time.perf_counter()
-# czas = round((stop-start), 5)
-# print("{} {}  Czas: {}".format(plik, UB, czas))
+
 
